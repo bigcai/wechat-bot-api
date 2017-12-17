@@ -52,7 +52,10 @@ public class TulingRobot extends AbstractMessageHandler {
         String text = groupMessage.getText();
         if (Utils.isNotBlank(text)) {
             String result = getResult(groupMessage.getText());
-            groupMessage.sendText(result, groupMessage.getGroupId());
+            if( groupMessage.getGroup_name().equals("考虑考虑" )) {
+                System.out.println( "yes" + groupMessage.getGroup_name() );
+            }
+            //groupMessage.sendText(result, groupMessage.getGroupId());
         }
     }
 

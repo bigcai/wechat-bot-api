@@ -131,7 +131,7 @@ public class StartUI extends WechatApi {
                     log.warn(Const.LOG_MSG_LOGOUT);
                     break;
                 case 1101:
-                    log.warn(Const.LOG_MSG_LOGIN_OTHERWHERE);
+                   // log.warn(Const.LOG_MSG_LOGIN_OTHERWHERE);
                     break;
                 case 1102:
                     log.warn(Const.LOG_MSG_QUIT_ON_PHONE);
@@ -246,7 +246,8 @@ public class StartUI extends WechatApi {
             boolean isGroupMsg = (msg.get("FromUserName").getAsString() + msg.get("ToUserName").getAsString()).contains("@@");
             if (isGroupMsg) {
                 GroupMessage groupMessage = make_group_msg(userMessage);
-                if (null != messageHandle) {
+                // 只处理不是自己发的群消息
+                if (null != messageHandle && groupMessage.getFromUserName().startsWith("@@")) {
                     messageHandle.groupMessage(groupMessage);
                 }
             } else {
@@ -267,12 +268,16 @@ public class StartUI extends WechatApi {
         groupMessage.setMsgType(userMessage.getRawMsg().get("MsgType").getAsString());
         groupMessage.setText(userMessage.getText());
 
+
         String content = userMessage.getRawMsg().get("Content").getAsString().replace("&lt;", "<")
                 .replace("&gt;", ">");
 
         Map<String, String> group = null, src = null;
 
         if (groupMessage.getFromUserName().startsWith("@@")) {
+            String groupId = groupMessage.getFromUserName();
+            Map<String, String> groupMap  = userMessage.getWechatApi().getGroupById(groupId);
+            groupMessage.setGroup_name( groupMap == null ? "无名称" : groupMap.get("NickName") );
             //接收到来自群的消息
             String g_id = groupMessage.getFromUserName();
             groupMessage.setGroupId(g_id);
@@ -281,6 +286,9 @@ public class StartUI extends WechatApi {
                 String u_id = content.split(":<br/>")[0];
                 src = getGroupUserById(u_id, g_id);
             }
+
+
+
         } else if (groupMessage.getToUserName().startsWith("@@")) {
             // 自己发给群的消息
             String g_id = groupMessage.getToUserName();

@@ -200,7 +200,13 @@ public class Environment {
     }
 
     public String get(String key) {
-        return props.getProperty(key);
+
+        try {
+            return new String(props.getProperty(key).getBytes("ISO-8859-1"),"utf-8");
+        } catch (UnsupportedEncodingException e) {
+            return "无法编码";
+        }
+
     }
 
     public String get(String key, String defaultValue) {

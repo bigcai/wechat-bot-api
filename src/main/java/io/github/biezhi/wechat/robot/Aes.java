@@ -28,7 +28,7 @@ public class Aes {
     /**
      * 构造方法
      *
-     * @param strKet 密钥
+     * @param strKey 密钥
      */
     public Aes(String strKey) {
         try {

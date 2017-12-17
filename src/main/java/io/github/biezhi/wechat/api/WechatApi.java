@@ -598,6 +598,10 @@ public class WechatApi {
      * @return
      */
     public Map<String, String> getGroupUserById(String userId, String groupId) {
+
+
+
+
         String              unknownPeople = Const.LOG_MSG_UNKNOWN_NAME + userId;
         Map<String, String> user          = new HashMap<String, String>();
         // 微信动态ID

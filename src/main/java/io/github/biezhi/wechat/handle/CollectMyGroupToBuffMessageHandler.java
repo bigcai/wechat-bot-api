@@ -19,8 +19,8 @@ public class CollectMyGroupToBuffMessageHandler implements MessageHandle {
     protected Environment environment ;
 
     public static int MAX_BUFFER_SIZE = 30000;
-    public String[] messageBuffer = new String[MAX_BUFFER_SIZE];
-    private static int messageBufferInPointor = 0;
+    public static String[] messageBuffer = new String[MAX_BUFFER_SIZE];
+    public static int messageBufferInPointor = 0;
 
     private String myGroupId = null;
     private String myGroupName = null;
@@ -55,7 +55,8 @@ public class CollectMyGroupToBuffMessageHandler implements MessageHandle {
                 myGroupId = groupMessage.getGroupId();
             }
 
-            if( groupMessage.getGroupId().equals( this.myGroupId )) {
+            //if( groupMessage.getGroupId().equals( this.myGroupId ) ) {
+            if( true ) {
                 if( !myGroupName.equals( groupMessage.getGroup_name() ) ) {
                     myGroupName = groupMessage.getGroup_name();
                     environment.set( "my_group_name", groupMessage.getGroup_name() );
@@ -64,7 +65,7 @@ public class CollectMyGroupToBuffMessageHandler implements MessageHandle {
                 System.out.println( "yes" + groupMessage.getGroup_name() );
                 // 将制定的群消息推入循环队列
                 if( messageBufferInPointor >= 0 && messageBufferInPointor < MAX_BUFFER_SIZE) {
-                    messageBuffer[  messageBufferInPointor  ] = text;
+                    messageBuffer[  messageBufferInPointor  ] = "【" + myGroupName + " 】"+ groupMessage.getUser_nickname() +":"+text;
                     messageBufferInPointor ++ ;
                 }
                 // 如果指针位移等于循环队列的长度就置 0

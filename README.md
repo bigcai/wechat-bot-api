@@ -1,3 +1,7 @@
+
+在下面项目的基础上新增了 jersey API 以及群消息采集MessageHandle.class
+
+
 # wechat-robot
 
 wechat-robot是基于微信网页版协议开发的普通微信号机器人程序，使用Java语言。
